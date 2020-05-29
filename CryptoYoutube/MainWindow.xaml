@@ -1,12 +1,29 @@
 ﻿<Window x:Class="CryptoYoutube.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CryptoYoutube"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+		xmlns:local="clr-namespace:CryptoYoutube" 
+        xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell"
+        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        AllowsTransparency="True" 
+        WindowStyle="None"
+        Topmost="True"
+        Background="White"
+        Loaded="Window_Loaded"
+        PreviewKeyDown="Window_PreviewKeyDown"
+        Height="350" Width="525">
+    
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome ResizeBorderThickness="10 4"/>
+    </shell:WindowChrome.WindowChrome>
 
+    <Grid Margin="0 10 0 0">
+        <cefSharp:ChromiumWebBrowser
+            x:Name="browser"
+            Address="{Binding Address, Mode=TwoWay}"
+            AllowDrop="True"
+            WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}"
+            ZoomLevelIncrement="0"
+            ScrollViewer.VerticalScrollBarVisibility="Hidden"
+            RenderOptions.BitmapScalingMode="HighQuality" />
     </Grid>
 </Window>

@@ -1,22 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CryptoYoutube
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -24,5 +13,40 @@ namespace CryptoYoutube
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            browser.Load("https://www.youtube.com/");
+        }
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+		{
+			Func<double> PasOpacite = () =>
+			{
+				if (Opacity > 0.41) return 0.2;
+				if (Opacity > 0.11) return 0.1;
+				return 0.01;
+			};
+
+			if (e.Key == Key.Add)
+			{
+
+				Opacity += PasOpacite();
+				Opacity = Math.Max(0, Math.Min(1, Opacity));
+			}
+			else if (e.Key == Key.Subtract)
+			{
+				Opacity -= PasOpacite();
+				Opacity = Math.Max(0, Math.Min(1, Opacity));
+			}
+			else if (e.Key == Key.NumPad1)
+			{
+				Opacity = 1;
+			}
+			else if (e.Key == Key.NumPad0)
+			{
+				Opacity = 0;
+			}
+		}
     }
 }
