@@ -39,14 +39,30 @@ namespace CryptoYoutube
 				Opacity -= PasOpacite();
 				Opacity = Math.Max(0, Math.Min(1, Opacity));
 			}
-			else if (e.Key == Key.NumPad1)
+			else if (e.Key == Key.NumPad1 && Keyboard.IsKeyDown(Key.LeftCtrl))
 			{
 				Opacity = 1;
 			}
-			else if (e.Key == Key.NumPad0)
+			else if (e.Key == Key.NumPad0 && Keyboard.IsKeyDown(Key.LeftCtrl))
 			{
 				Opacity = 0;
 			}
+		}
+
+        private void buttonMinimiser_Click(object sender, RoutedEventArgs e)
+        {
+			WindowState = WindowState.Minimized;
+        }
+
+        private void buttonFermer_Click(object sender, RoutedEventArgs e)
+        {
+			Close();
+        }
+
+        private void buttonRedefinir_Click(object sender, RoutedEventArgs e)
+        {
+			Height = 510;
+			Width = 875;
 		}
     }
 }

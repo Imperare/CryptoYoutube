@@ -7,23 +7,61 @@
         AllowsTransparency="True" 
         WindowStyle="None"
         Topmost="True"
-        Background="White"
+        Background="Black"
         Loaded="Window_Loaded"
         PreviewKeyDown="Window_PreviewKeyDown"
-        Height="350" Width="525">
+        Height="440" 
+        Width="720">
     
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome ResizeBorderThickness="10 4"/>
     </shell:WindowChrome.WindowChrome>
 
-    <Grid Margin="0 10 0 0">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="styButton" >
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="Black" />
+            <Setter Property="Width" Value="15" />
+            <Setter Property="Height" Value="15" />
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderThickness="0" x:Name="bd" Padding="0" Margin="0" >
+                            <ContentPresenter Margin="0 -3 0 0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              VerticalAlignment="Center" 
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RecognizesAccessKey="True" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="LightGray"/>
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="Cursor" Value="Hand" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="0 20 0 0" HorizontalAlignment="Stretch" >        
         <cefSharp:ChromiumWebBrowser
             x:Name="browser"
-            Address="{Binding Address, Mode=TwoWay}"
             AllowDrop="True"
-            WebBrowser="{Binding WebBrowser, Mode=OneWayToSource}"
             ZoomLevelIncrement="0"
             ScrollViewer.VerticalScrollBarVisibility="Hidden"
             RenderOptions.BitmapScalingMode="HighQuality" />
+        
+        <Grid Background="Red" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Button x:Name="buttonRedefinir" Content="+" Click="buttonRedefinir_Click"  HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource styButton}" />
+                <Button x:Name="buttonMinimiser" Content="-" Click="buttonMinimiser_Click" HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource styButton}" />
+                <Button x:Name="buttonFermer" Content="x" Click="buttonFermer_Click"  HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource styButton}" />
+            </StackPanel>
+        </Grid>
+        
     </Grid>
 </Window>
