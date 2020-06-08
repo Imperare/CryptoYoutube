@@ -55,7 +55,7 @@
             ScrollViewer.VerticalScrollBarVisibility="Hidden"
             RenderOptions.BitmapScalingMode="HighQuality" />
         
-        <Grid Background="Red" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" >
+        <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <Button x:Name="buttonRedefinir" Content="+" Click="buttonRedefinir_Click"  HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource styButton}" />
                 <Button x:Name="buttonMinimiser" Content="-" Click="buttonMinimiser_Click" HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource styButton}" />

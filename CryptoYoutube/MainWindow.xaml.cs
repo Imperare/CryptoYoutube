@@ -15,8 +15,22 @@ namespace CryptoYoutube
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+            browser.FrameLoadEnd += Browser_FrameLoadEnd; ;
+			browser.Load("https://www.youtube.com/");
+		}
+
+        private void Browser_FrameLoadEnd(object sender, CefSharp.FrameLoadEndEventArgs e)
         {
-            browser.Load("https://www.youtube.com/");
+            Application.Current.Dispatcher?.Invoke(() =>
+            {
+                if (browser.Address.Equals("https://www.youtube.com/"))
+                {
+                    browser.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("document.getElementById('remind-me-later-button').click();");
+                    browser.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("document.getElementById('dismiss-button').click();");
+                    return;
+                }
+            });
         }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
