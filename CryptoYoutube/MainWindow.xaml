@@ -2,16 +2,16 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:local="clr-namespace:CryptoYoutube" 
+		xmlns:properties="clr-namespace:CryptoYoutube.Properties" 
         xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell"
         xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         AllowsTransparency="True" 
         WindowStyle="None"
         Topmost="True"
         Background="Black"
-        Loaded="Window_Loaded"
         PreviewKeyDown="Window_PreviewKeyDown"
-        Height="440" 
-        Width="720">
+        Height="510" 
+        Width="875">
     
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome ResizeBorderThickness="10 4"/>
@@ -22,9 +22,9 @@
             <Setter Property="SnapsToDevicePixels" Value="True" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="Background" Value="Black" />
-            <Setter Property="Width" Value="15" />
-            <Setter Property="Height" Value="15" />
-            <Setter Property="FontSize" Value="10" />
+            <Setter Property="Width" Value="24" />
+            <Setter Property="Height" Value="24" />
+            <Setter Property="FontSize" Value="20" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -47,21 +47,89 @@
         </Style>
     </Window.Resources>
 
-    <Grid Margin="0 20 0 0" HorizontalAlignment="Stretch" >        
-        <cefSharp:ChromiumWebBrowser
-            x:Name="browser"
-            AllowDrop="True"
-            ZoomLevelIncrement="0"
-            ScrollViewer.VerticalScrollBarVisibility="Hidden"
-            RenderOptions.BitmapScalingMode="HighQuality" />
-        
-        <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" >
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo ThumbnailClipMargin="5 0">
+            <TaskbarItemInfo.ThumbButtonInfos>
+                <ThumbButtonInfo x:Name="buttonTaskBarPause" Description="Pause" Click="buttonTaskBarPause_Click" ImageSource="Medias/Pause.ico"/>
+                <ThumbButtonInfo x:Name="buttonTaskBarStart" Description="Start" Click="buttonTaskBarStart_Click" ImageSource="Medias/Start.ico"/>
+            </TaskbarItemInfo.ThumbButtonInfos>
+        </TaskbarItemInfo>
+    </Window.TaskbarItemInfo>
+
+    <Grid>
+        <TabControl Margin="0 20 0 0" HorizontalAlignment="Stretch" Background="Transparent" TabStripPlacement="Bottom" BorderThickness="0" >
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Grid Name="Panel">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Panel" Property="Background" Value="#66FFFFFF" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Panel" Property="Background" Value="#22FFFFFF" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem x:Name="tabItemAudio" Header="Audio" Background="Black">
+                <cefSharp:ChromiumWebBrowser
+                    x:Name="browserAudio"
+                    AllowDrop="True"
+                    ZoomLevelIncrement="0"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    RenderOptions.BitmapScalingMode="HighQuality" />
+            </TabItem>
+            
+            <TabItem x:Name="tabItemYoutube" Header="Youtube" Background="Black">
+                <cefSharp:ChromiumWebBrowser
+                    x:Name="browserYoutube"
+                    AllowDrop="True"
+                    ZoomLevelIncrement="0"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    RenderOptions.BitmapScalingMode="HighQuality" />
+            </TabItem>
+        </TabControl>
+
+
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <Button x:Name="buttonRedefinir" Content="+" Click="buttonRedefinir_Click"  HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource styButton}" />
+                <Button x:Name="buttonHome" Content="⌂" Click="buttonHome_Click"  HorizontalAlignment="Right" Margin="0 0 30 0" Style="{DynamicResource styButton}" />
+
+                <Button x:Name="buttonOptiMinimale" Click="buttonOptiMinimale_Click"  HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource styButton}" FontSize="13">
+                    <Button.Content>
+                        <TextBlock Text="⇲">
+                            <TextBlock.RenderTransform>
+                                <RotateTransform Angle="90" CenterX="5" CenterY="10"/>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Button.Content>
+                </Button>
+                <Button x:Name="buttonOpti" Click="buttonOpti_Click"  HorizontalAlignment="Right" Margin="0 0 30 0" Style="{DynamicResource styButton}" FontSize="13">
+                    <Button.Content>
+                        <TextBlock Text="⇱">
+                            <TextBlock.RenderTransform>
+                                <RotateTransform Angle="90" CenterX="5" CenterY="10"/>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Button.Content>
+                </Button>
+
                 <Button x:Name="buttonMinimiser" Content="-" Click="buttonMinimiser_Click" HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource styButton}" />
-                <Button x:Name="buttonFermer" Content="x" Click="buttonFermer_Click"  HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource styButton}" />
+                <Button x:Name="buttonMaximiser" Content="□" Click="buttonMaximiser_Click" HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource styButton}" />
+                <Button x:Name="buttonFermer" Content="x" Click="buttonFermer_Click"  HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource styButton}" FontSize="16" />
             </StackPanel>
         </Grid>
-        
     </Grid>
 </Window>

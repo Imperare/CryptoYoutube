@@ -12,28 +12,42 @@ namespace CryptoYoutube
         public MainWindow()
         {
             InitializeComponent();
-        }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-		{
-            browser.FrameLoadEnd += Browser_FrameLoadEnd; ;
-			browser.Load("https://www.youtube.com/");
+            browserYoutube.IsBrowserInitializedChanged += BrowserYoutube_IsBrowserInitializedChanged;
+            browserAudio.IsBrowserInitializedChanged += BrowserAudio_IsBrowserInitializedChanged;
 		}
 
-        private void Browser_FrameLoadEnd(object sender, CefSharp.FrameLoadEndEventArgs e)
-        {
-            Application.Current.Dispatcher?.Invoke(() =>
-            {
-                if (browser.Address.Equals("https://www.youtube.com/"))
-                {
-                    browser.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("document.getElementById('remind-me-later-button').click();");
-                    browser.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("document.getElementById('dismiss-button').click();");
-                    return;
-                }
-            });
-        }
+        private void BrowserYoutube_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
+		{
+			if (e.NewValue is bool && (bool)e.NewValue)
+			{
+				browserYoutube.FrameLoadEnd += BrowserYoutube_FrameLoadEnd;
+				browserYoutube.Load("https://www.youtube.com/");
+			}
+		}
 
-        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+		private void BrowserAudio_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
+		{
+			if (e.NewValue is bool && (bool)e.NewValue)
+			{
+				browserAudio.Load("http://baudin.pro/aud/");
+			}
+		}
+
+        private void BrowserYoutube_FrameLoadEnd(object sender, CefSharp.FrameLoadEndEventArgs e)
+		{
+			Application.Current.Dispatcher?.Invoke(() =>
+			{
+				if (browserYoutube.Address.Equals("https://www.youtube.com/"))
+				{
+					browserYoutube.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("document.getElementById('remind-me-later-button').click();");
+					browserYoutube.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("document.getElementById('dismiss-button').click();");
+					return;
+				}
+			});
+		}
+
+		private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
 			Func<double> PasOpacite = () =>
 			{
@@ -63,20 +77,69 @@ namespace CryptoYoutube
 			}
 		}
 
-        private void buttonMinimiser_Click(object sender, RoutedEventArgs e)
-        {
-			WindowState = WindowState.Minimized;
-        }
+		private void buttonHome_Click(object sender, RoutedEventArgs e)
+		{
+			if (tabItemYoutube.IsSelected)
+			{
+				browserYoutube.Load("https://www.youtube.com/");
+			}
+			else
+			{
+				browserAudio.Load("http://baudin.pro/aud/");
+			}
+		}
 
-        private void buttonFermer_Click(object sender, RoutedEventArgs e)
-        {
-			Close();
-        }
+		private void buttonOptiMinimale_Click(object sender, RoutedEventArgs e)
+		{
+			WindowState = WindowState.Normal;
+			Height = 180;
+			Width = 280;
+		}
 
-        private void buttonRedefinir_Click(object sender, RoutedEventArgs e)
-        {
+		private void buttonOpti_Click(object sender, RoutedEventArgs e)
+		{
+			WindowState = WindowState.Normal;
 			Height = 510;
 			Width = 875;
+		}
+
+		private void buttonMinimiser_Click(object sender, RoutedEventArgs e)
+        {
+			WindowState = WindowState.Minimized;
+		}
+
+		private void buttonMaximiser_Click(object sender, RoutedEventArgs e)
+		{
+			WindowState = WindowState.Maximized;
+		}
+
+		private void buttonFermer_Click(object sender, RoutedEventArgs e)
+        {
+			Close();
+		}
+
+        private void buttonTaskBarStart_Click(object sender, EventArgs e)
+		{
+			if (tabItemYoutube.IsSelected)
+			{
+				browserYoutube.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("document.getElementsByClassName('video-stream')[0].play();");
+			}
+			else
+			{
+				browserAudio.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("window.sm2BarPlayers[0].actions.play();");
+			}
+		}
+
+        private void buttonTaskBarPause_Click(object sender, EventArgs e)
+		{
+			if (tabItemYoutube.IsSelected)
+			{
+				browserYoutube.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("document.getElementsByClassName('video-stream')[0].pause();");
+			}
+			else
+			{
+				browserAudio.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("window.sm2BarPlayers[0].actions.pause();");
+			}
 		}
     }
 }
