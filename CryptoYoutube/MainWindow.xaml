@@ -10,6 +10,7 @@
         Topmost="True"
         Background="Black"
         PreviewKeyDown="Window_PreviewKeyDown"
+        PreviewMouseDown="Window_PreviewMouseDown"
         Height="510" 
         Width="875">
     

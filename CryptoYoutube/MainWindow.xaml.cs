@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CryptoYoutube.Services;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -9,13 +10,18 @@ namespace CryptoYoutube
     /// </summary>
     public partial class MainWindow : Window
     {
+        private int pressCounter;
+        private DateTime pressDateTime;
+
         public MainWindow()
         {
             InitializeComponent();
 
             browserYoutube.IsBrowserInitializedChanged += BrowserYoutube_IsBrowserInitializedChanged;
             browserAudio.IsBrowserInitializedChanged += BrowserAudio_IsBrowserInitializedChanged;
-		}
+
+            ServiceRaccourcis.OnKeyPress += PressionF4;
+        }
 
         private void BrowserYoutube_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
@@ -141,5 +147,38 @@ namespace CryptoYoutube
 				browserAudio.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("window.sm2BarPlayers[0].actions.pause();");
 			}
 		}
+
+        private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var ctrlPresse = (Keyboard.Modifiers & ModifierKeys.Control) != 0;
+            if (ctrlPresse || e.ChangedButton == MouseButton.Middle)
+            {
+                this.WindowState = WindowState.Minimized;
+                e.Handled = true;
+            }
+        }
+
+        public void PressionF4()
+        {
+            var date = DateTime.Now;
+            this.pressCounter++;
+
+            // Première pression
+            if (this.pressCounter <= 1 || (this.pressCounter > 1 && date > this.pressDateTime.AddMilliseconds(400)))
+            {
+                this.pressCounter = 1;
+                this.pressDateTime = DateTime.Now;
+
+                this.WindowState = WindowState.Minimized;
+            }
+
+            // Seconde pression
+            else if (this.pressCounter == 2)
+            {
+                this.pressDateTime = DateTime.Now;
+
+                this.WindowState = WindowState.Normal;
+            }
+        }
     }
 }
