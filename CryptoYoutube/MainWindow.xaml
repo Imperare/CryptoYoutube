@@ -11,6 +11,7 @@
         Background="Black"
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseDown="Window_PreviewMouseDown"
+        ShowInTaskbar="False"
         Height="510" 
         Width="875">
     

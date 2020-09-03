@@ -104,6 +104,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="NotifyIconViewModel.cs" />
+    <Compile Include="NotifyIconWindow.xaml.cs">
+      <DependentUpon>NotifyIconWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Onglets\AudioTabItem.xaml.cs">
       <DependentUpon>AudioTabItem.xaml</DependentUpon>
     </Compile>
@@ -132,6 +136,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NotifyIconWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Onglets\AudioTabItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -182,6 +190,9 @@
   <ItemGroup>
     <Resource Include="Medias\Pause.ico" />
     <Resource Include="Medias\Start.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Medias\Icone_16.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

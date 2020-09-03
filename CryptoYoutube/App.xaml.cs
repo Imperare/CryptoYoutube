@@ -1,6 +1,4 @@
-﻿using CryptoYoutube.Services;
-using System.Windows;
-using Microsoft.Win32;
+﻿using System.Windows;
 
 namespace CryptoYoutube
 {
@@ -9,5 +7,9 @@ namespace CryptoYoutube
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            new NotifyIconWindow();
+        }
     }
 }
