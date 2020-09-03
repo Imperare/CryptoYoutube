@@ -1,5 +1,6 @@
 ﻿using CryptoYoutube.Onglets;
 using CryptoYoutube.Services;
+using Microsoft.Win32;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -13,15 +14,27 @@ namespace CryptoYoutube
     {
         private int pressCounter;
         private DateTime pressDateTime;
+        private WindowsSession windowsSession;
 
         public MainWindow()
         {
             InitializeComponent();
 
             ServiceRaccourcis.OnKeyPress += PressionF4;
+
+            windowsSession = new WindowsSession();
+            windowsSession.StateChanged += WindowsSession_StateChanged;
         }
 
-		private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void WindowsSession_StateChanged(object sender, SessionSwitchEventArgs e)
+        {
+            if (e.Reason == SessionSwitchReason.SessionUnlock || e.Reason == SessionSwitchReason.SessionLock)
+            {
+                WindowState = WindowState.Minimized;
+            }
+        }
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
 			Func<double> PasOpacite = () =>
 			{

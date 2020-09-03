@@ -119,6 +119,7 @@
     </Compile>
     <Compile Include="RaccourcisService.cs" />
     <Compile Include="Services\ServiceRaccourcis.cs" />
+    <Compile Include="Services\WindowsSession.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
