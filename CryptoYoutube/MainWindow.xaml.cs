@@ -1,4 +1,5 @@
-﻿using CryptoYoutube.Services;
+﻿using CryptoYoutube.Onglets;
+using CryptoYoutube.Services;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -17,41 +18,8 @@ namespace CryptoYoutube
         {
             InitializeComponent();
 
-            browserYoutube.IsBrowserInitializedChanged += BrowserYoutube_IsBrowserInitializedChanged;
-            browserAudio.IsBrowserInitializedChanged += BrowserAudio_IsBrowserInitializedChanged;
-
             ServiceRaccourcis.OnKeyPress += PressionF4;
         }
-
-        private void BrowserYoutube_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
-		{
-			if (e.NewValue is bool && (bool)e.NewValue)
-			{
-				browserYoutube.FrameLoadEnd += BrowserYoutube_FrameLoadEnd;
-				browserYoutube.Load("https://www.youtube.com/");
-			}
-		}
-
-		private void BrowserAudio_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
-		{
-			if (e.NewValue is bool && (bool)e.NewValue)
-			{
-				browserAudio.Load("http://baudin.pro/aud/");
-			}
-		}
-
-        private void BrowserYoutube_FrameLoadEnd(object sender, CefSharp.FrameLoadEndEventArgs e)
-		{
-			Application.Current.Dispatcher?.Invoke(() =>
-			{
-				if (browserYoutube.Address.Equals("https://www.youtube.com/"))
-				{
-					browserYoutube.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("document.getElementById('remind-me-later-button').click();");
-					browserYoutube.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("document.getElementById('dismiss-button').click();");
-					return;
-				}
-			});
-		}
 
 		private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
@@ -85,14 +53,7 @@ namespace CryptoYoutube
 
 		private void buttonHome_Click(object sender, RoutedEventArgs e)
 		{
-			if (tabItemYoutube.IsSelected)
-			{
-				browserYoutube.Load("https://www.youtube.com/");
-			}
-			else
-			{
-				browserAudio.Load("http://baudin.pro/aud/");
-			}
+            (tabControl.SelectedItem as IOnglet)?.HomePage();
 		}
 
 		private void buttonOptiMinimale_Click(object sender, RoutedEventArgs e)
@@ -126,26 +87,26 @@ namespace CryptoYoutube
 
         private void buttonTaskBarStart_Click(object sender, EventArgs e)
 		{
-			if (tabItemYoutube.IsSelected)
-			{
-				browserYoutube.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("document.getElementsByClassName('video-stream')[0].play();");
-			}
-			else
-			{
-				browserAudio.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("window.sm2BarPlayers[0].actions.play();");
-			}
+			//if (tabItemYoutube.IsSelected)
+			//{
+			//	browserYoutube.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("document.getElementsByClassName('video-stream')[0].play();");
+			//}
+			//else
+			//{
+			//	browserAudio.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("window.sm2BarPlayers[0].actions.play();");
+			//}
 		}
 
         private void buttonTaskBarPause_Click(object sender, EventArgs e)
 		{
-			if (tabItemYoutube.IsSelected)
-			{
-				browserYoutube.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("document.getElementsByClassName('video-stream')[0].pause();");
-			}
-			else
-			{
-				browserAudio.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("window.sm2BarPlayers[0].actions.pause();");
-			}
+			//if (tabItemYoutube.IsSelected)
+			//{
+			//	browserYoutube.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("document.getElementsByClassName('video-stream')[0].pause();");
+			//}
+			//else
+			//{
+			//	browserAudio.GetBrowser().FocusedFrame.ExecuteJavaScriptAsync("window.sm2BarPlayers[0].actions.pause();");
+			//}
 		}
 
         private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
